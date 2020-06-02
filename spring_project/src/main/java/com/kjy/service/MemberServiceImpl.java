@@ -1,0 +1,84 @@
+package com.kjy.service;
+
+import java.util.List;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.kjy.domain.MemberVO;
+import com.kjy.mapper.MemberMapper;
+
+import lombok.AllArgsConstructor;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
+
+
+@Log4j
+@Service
+@AllArgsConstructor
+public class MemberServiceImpl implements MemberService {
+
+	@Setter(onMethod_ = @Autowired)
+	private MemberMapper mapper;
+	
+	@Override
+	public void register(MemberVO member) {
+		log.info("register....."+member);
+		mapper.insertSelectKey(member);
+	}
+
+	@Override
+	public String LoginCheck(MemberVO member) {
+		log.info("MemberServiceImpl 부분" + member);
+		String result = mapper.loginCheck(member);
+		System.out.println(result);
+		
+		return (result == null) ? "0" : "1";
+	}
+
+	@Override
+	public String getModel(String id) {
+		String result = mapper.getModel(id);
+		return result;
+	}
+	
+	@Override
+	public boolean authInsert(MemberVO member) {
+		log.info("authInsert....." + member);
+		return mapper.authInsert(member) == 1;
+	}
+
+	@Override
+	public boolean remove(MemberVO member) {
+		log.info("remove....."+ member);
+		return mapper.delete(member) == 1;
+	}
+
+	@Override
+	public List<MemberVO> getMember(String id) {
+		
+		return mapper.getMember(id);
+	}
+	
+	@Override
+	public boolean modify(MemberVO member) {
+		log.info("modify....." + member);
+		return mapper.update(member) == 1;
+	}
+
+	@Override
+	public int idChk(MemberVO vo) {
+		log.info("아이디 체크" + vo);
+		int result = mapper.idChk(vo);
+		return result;
+	}
+
+	@Override
+	public String getUser(String id) {
+		String result = mapper.getUser(id);
+		return result;
+	}
+
+
+}
